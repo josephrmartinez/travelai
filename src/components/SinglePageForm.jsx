@@ -3,14 +3,15 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import CheckboxItem from './CheckboxItem';
 import RadioItem from './RadioItem';
+import { DateTime } from 'luxon';
+
 
 import {
   Waves, Cactus, Mountains, TreeEvergreen,
-  Buildings, CurrencyDollar, PersonSimpleBike, 
+  Buildings, PersonSimpleBike, 
   PersonSimpleWalk, Boot, FlowerLotus, Palette,
   Bird, BowlFood, FlyingSaucer, Champagne,
-  Bed, SketchLogo, Tent, HandCoins,
-  Coins, PiggyBank, Grains
+  Bed, SketchLogo, Tent, Grains
 } from "@phosphor-icons/react";
 
 export default function SinglePageForm() {
@@ -20,26 +21,30 @@ export default function SinglePageForm() {
     const [regionPreference, setRegionPreference] = useState("")
     const [environment, setEnvironment] = useState("")
     const [group, setGroup] = useState("")
-    const [accomodation, setAccomodation] = useState("")
+    const [accommodation, setAccommodation] = useState("")
     const [pace, setPace] = useState("")
     const [interests, setInterests] = useState([])
 
 
-    const travelDataModel = 
+    const travelData = 
     {
-        travelDates: dateRange,
+        startDate: DateTime.fromJSDate(startDate).toLocaleString(DateTime.DATE_MED),
+        endDate: DateTime.fromJSDate(endDate).toLocaleString(DateTime.DATE_MED),
         regionPreference: regionPreference,
         environment: environment,
         group: group,
-        accomodations: accomodation,
+        accommodations: accommodation,
         pace: pace,
         interests: interests,
     }
     
     function generateTrip(event) {
         event.preventDefault()
-        console.log(travelDataModel)
+        // console.log(travelData)
+        console.log(`Create an unique, dynamic, and extraordinary travel itinerary based on the following information ${JSON.stringify(travelData)}. Be as specific as possible with accommodation and activity suggestions. Ensure that the itinerary includes some unconventional and off-the-beaten path suggestions. Return your response as a JSON object with the following keys for each section of the trip: dates, location, activities. The final JSON object should be an array of trip segments.`)
     }
+
+    // `Return your response as a JSON object with the following keys for each section of the trip: dates, location, activities. The final JSON object should be an array of trip segments.`
 
     function handleCheckboxChange(e) {
         const { value } = e.target;
@@ -89,61 +94,49 @@ export default function SinglePageForm() {
     <div className='flex flex-col items-center my-8'>
         <div className='text-md font-semibold uppercase text-neutral-700 my-2'>environment</div>
         <div className='grid grid-cols-3 gap-4'>
-          <label className="cursor-pointer">
-          <input type="radio" className="peer sr-only" name="environment" value="beach" checked={environment === "beach"} onChange={e=> {setEnvironment(e.target.value)}}/>
-          <div className="bg-white p-3 w-24 rounded-sm text-gray-500 border-b-2 border-transparent transition-all hover:shadow peer-checked:text-sky-600 peer-checked:border-blue-400">
-            <div className='flex flex-col items-center'>
-              <Waves size={32} weight='duotone' fill="currentColor" />
-              <p className="text-sm font-semibold uppercase ">beach</p>
-            </div>
-          </div>
-          </label>
-          <label className="cursor-pointer">
-          <input type="radio" className="peer sr-only" name="environment" value="desert" checked={environment === "desert"} onChange={e=> {setEnvironment(e.target.value)}} />
-          <div className="bg-white p-3 w-24 rounded-sm text-gray-500 border-b-2 border-transparent transition-all hover:shadow peer-checked:text-sky-600 peer-checked:border-blue-400 peer-checked:border-offset-2">
-            <div className='flex flex-col items-center'>
-              <Cactus size={32} weight='duotone' fill="currentColor" />
-              <p className="text-sm font-semibold uppercase ">desert</p>
-            </div>
-          </div>
-          </label>
-          <label className="cursor-pointer">
-          <input type="radio" className="peer sr-only" name="environment" value="mountains" checked={environment === "mountains"} onChange={e=> {setEnvironment(e.target.value)}}/>
-          <div className="bg-white p-3 w-24 rounded-sm text-gray-500 border-b-2 border-transparent transition-all hover:shadow peer-checked:text-sky-600 peer-checked:border-blue-400 peer-checked:border-offset-2">
-            <div className='flex flex-col items-center'>
-              <Mountains size={32} weight='duotone' fill="currentColor" />
-              <p className="text-sm font-semibold uppercase ">mountains</p>
-            </div>
-          </div>
-          </label>
-          <label className="cursor-pointer">
-          <input type="radio" className="peer sr-only" name="environment" value="forest" checked={environment === "forest"} onChange={e=> {setEnvironment(e.target.value)}}/>
-          <div className="bg-white p-3 w-24 rounded-sm text-gray-500 border-b-2 border-transparent transition-all hover:shadow peer-checked:text-sky-600 peer-checked:border-blue-400">
-            <div className='flex flex-col items-center'>
-              <TreeEvergreen size={32} weight='duotone' fill="currentColor" />
-              <p className="text-sm font-semibold uppercase ">forest</p>
-            </div>
-          </div>
-          </label>
-          <label className="cursor-pointer">
-          <input type="radio" className="peer sr-only" name="environment"  value="city" checked={environment === "city"} onChange={e=> {setEnvironment(e.target.value)}}/>
-          <div className="bg-white p-3 w-24 rounded-sm text-gray-500 border-b-2 border-transparent transition-all hover:shadow peer-checked:text-sky-600 peer-checked:border-blue-400">
-            <div className='flex flex-col items-center'>
-              <Buildings size={32} weight='duotone' fill="currentColor" />
-              <p className="text-sm font-semibold uppercase ">city</p>
-            </div>
-          </div>
-          </label>
-          <label className="cursor-pointer">
-          <input type="radio" className="peer sr-only" name="environment"  value="farmland" checked={environment === "farmland"} onChange={e=> {setEnvironment(e.target.value)}} />
-          <div className="bg-white p-3 w-24 rounded-sm text-gray-500 border-b-2 border-transparent transition-all hover:shadow peer-checked:text-sky-600 peer-checked:border-blue-400">
-            <div className='flex flex-col items-center'>
-              <Grains size={32} weight='duotone' fill="currentColor" />
-              <p className="text-sm font-semibold uppercase ">farmland</p>
-            </div>
-          </div>
-          </label>
-      
+          <RadioItem
+            name="environment"
+            label="beach"
+            value="beach"
+            checked={environment === 'beach'}
+            onChange={(e)=>setEnvironment(e.target.value)}
+            icon={<Waves size={32} weight='duotone' fill="currentColor" />}/>
+          <RadioItem
+            name="environment"
+            label="desert"
+            value="desert"
+            checked={environment === 'desert'}
+            onChange={(e)=>setEnvironment(e.target.value)}
+            icon={<Cactus size={32} weight='duotone' fill="currentColor" />}/>
+          <RadioItem
+            name="environment"
+            label="mountains"
+            value="mountains"
+            checked={environment === 'mountains'}
+            onChange={(e)=>setEnvironment(e.target.value)}
+            icon={<Mountains size={32} weight='duotone' fill="currentColor" />}/>
+          <RadioItem
+            name="environment"
+            label="forest"
+            value="forest"
+            checked={environment === 'forest'}
+            onChange={(e)=>setEnvironment(e.target.value)}
+            icon={<TreeEvergreen size={32} weight='duotone' fill="currentColor" />}/>
+          <RadioItem
+            name="environment"
+            label="city"
+            value="city"
+            checked={environment === 'city'}
+            onChange={(e)=>setEnvironment(e.target.value)}
+            icon={<Buildings size={32} weight='duotone' fill="currentColor" />}/>
+          <RadioItem
+            name="environment"
+            label="farmland"
+            value="farmland"
+            checked={environment === 'farmland'}
+            onChange={(e)=>setEnvironment(e.target.value)}
+            icon={<Grains size={32} weight='duotone' fill="currentColor" />}/>
+          
         </div>
       </div>
       
@@ -152,29 +145,54 @@ export default function SinglePageForm() {
       <div className='flex flex-col items-center my-8'>
         <div className='text-md font-semibold uppercase text-neutral-700 my-2'>group</div>
         <div className='grid grid-cols-3 gap-4'>
-          
-          <label className="cursor-pointer">
-          <input type="radio" className="peer sr-only" name="group" value="solo" checked={group === "solo"} onChange={e=> {setGroup(e.target.value)}}/>
-          <div className="flex flex-col items-center bg-white p-3 w-24 rounded-sm text-gray-500 border-b-2 border-transparent transition-all hover:shadow peer-checked:text-sky-600 peer-checked:border-blue-400 peer-checked:border-offset-2">
-              <svg xmlns="http://www.w3.org/2000/svg" width={32} height={32} fill='currentColor' viewBox="0 0 256 256"><circle cx="128" cy="128" r="32"/></svg>
-              <p className="text-sm font-semibold uppercase ">solo</p>
-          </div>
-          </label>
-          <label className="cursor-pointer">
-          <input type="radio" className="peer sr-only" name="group" value="couple" checked={group === "couple"} onChange={e=> {setGroup(e.target.value)}}/>
-          <div className="flex flex-col items-center bg-white p-3 w-24 rounded-sm text-gray-500 border-b-2 border-transparent transition-all hover:shadow peer-checked:text-sky-600 peer-checked:border-blue-400 peer-checked:border-offset-2">
-              <svg xmlns="http://www.w3.org/2000/svg" width={32} height={32} fill='currentColor' viewBox="0 0 256 256"><circle cx="85" cy="128" r="32"/><circle cx="171" cy="128" r="32"/></svg>
-              <p className="text-sm font-semibold uppercase ">couple</p>
-          </div>
-          </label>
-          <label className="cursor-pointer">
-          <input type="radio" className="peer sr-only" name="group" value="family" checked={group === "family"} onChange={e=> {setGroup(e.target.value)}}/>
-          <div className="flex flex-col items-center bg-white p-3 w-24 rounded-sm text-gray-500 border-b-2 border-transparent transition-all hover:shadow peer-checked:text-sky-600 peer-checked:border-blue-400 peer-checked:border-offset-2">
-              <svg xmlns="http://www.w3.org/2000/svg" width={32} height={32} fill='currentColor' viewBox="0 0 256 256"><circle cx="32" cy="128" r="32"/><circle cx="128" cy="128" r="32"/><circle cx="224" cy="128" r="32"/></svg>
-              <p className="text-sm font-semibold uppercase ">family</p>
-          </div>
-          </label>
-      
+          <RadioItem
+            name="group"
+            label="solo"
+            value="solo"
+            checked={group === 'solo'}
+            onChange={(e)=>setGroup(e.target.value)}
+            icon={
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width={32}
+                    height={32}
+                    fill="currentColor"
+                    viewBox="0 0 256 256">
+                    <circle cx="128" cy="128" r="32" />
+                </svg>}/>
+        <RadioItem
+            name="group"
+            label="couple"
+            value="couple"
+            checked={group === 'couple'}
+            onChange={(e)=>setGroup(e.target.value)}
+            icon={
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width={32}
+                    height={32}
+                    fill="currentColor"
+                    viewBox="0 0 256 256">
+                    <circle cx="85" cy="128" r="32" />
+                    <circle cx="171" cy="128" r="32" />
+                </svg>}/>
+        <RadioItem
+            name="group"
+            label="family"
+            value="family"
+            checked={group === 'family'}
+            onChange={(e)=>setGroup(e.target.value)}
+            icon={
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width={32}
+                    height={32}
+                    fill="currentColor"
+                    viewBox="0 0 256 256">
+                    <circle cx="32" cy="128" r="32" />
+                    <circle cx="128" cy="128" r="32" />
+                    <circle cx="224" cy="128" r="32" />
+                </svg>}/>
         </div>
       </div>
       
@@ -184,37 +202,29 @@ export default function SinglePageForm() {
 
       
     <div className='flex flex-col items-center my-8'>
-        <div className='text-md font-semibold uppercase text-neutral-700 my-2'>accomodations</div>
-        <div className='grid grid-cols-3 gap-4'>
-          
-        <label className="cursor-pointer">
-          <input type="radio" className="peer sr-only" name="accomodation" value="camping" checked={accomodation === "camping"} onChange={e=> {setAccomodation(e.target.value)}}/>
-          <div className="bg-white p-3 w-24 rounded-sm text-gray-500 border-b-2 border-transparent transition-all hover:shadow peer-checked:text-sky-600 peer-checked:border-blue-400">
-            <div className='flex flex-col items-center'>
-              <Tent size={32} weight='duotone' fill="currentColor" />
-              <p className="text-sm font-semibold uppercase ">camping</p>
-            </div>
-          </div>
-          </label>
-          <label className="cursor-pointer">
-          <input type="radio" className="peer sr-only" name="accomodation" value="hotel" checked={accomodation === "hotel"} onChange={e=> {setAccomodation(e.target.value)}}/>
-          <div className="bg-white p-3 rounded-sm text-gray-500 border-b-2 border-transparent transition-all hover:shadow peer-checked:text-sky-600 peer-checked:border-blue-400 peer-checked:border-offset-2">
-            <div className='flex flex-col items-center'>
-              <Bed size={32} weight='duotone' fill="currentColor" />
-              <p className="text-sm font-semibold uppercase ">hotel</p>
-            </div>
-          </div>
-          </label>
-          <label className="cursor-pointer">
-          <input type="radio" className="peer sr-only" name="accomodation" value="resort" checked={accomodation === "resort"} onChange={e=> {setAccomodation(e.target.value)}}/>
-          <div className="bg-white p-3 rounded-sm text-gray-500 border-b-2 border-transparent transition-all hover:shadow peer-checked:text-sky-600 peer-checked:border-blue-400 peer-checked:border-offset-2">
-            <div className='flex flex-col items-center'>
-              <SketchLogo size={32} weight='duotone' fill="currentColor" />
-              <p className="text-sm font-semibold uppercase ">resort</p>
-            </div>
-          </div>
-          </label>
-      
+        <div className='text-md font-semibold uppercase text-neutral-700 my-2'>accommodations</div>
+        <div className='grid grid-cols-3 gap-4'>          
+          <RadioItem
+            name="accommodation"
+            label="camping"
+            value="camping"
+            checked={accommodation === 'camping'}
+            onChange={(e)=>setAccommodation(e.target.value)}
+            icon={<Tent size={32} weight='duotone' fill="currentColor" />}/> 
+          <RadioItem
+            name="accommodation"
+            label="hotel"
+            value="hotel"
+            checked={accommodation === 'hotel'}
+            onChange={(e)=>setAccommodation(e.target.value)}
+            icon={<Bed size={32} weight='duotone' fill="currentColor" />}/>
+          <RadioItem
+            name="accommodation"
+            label="resort"
+            value="resort"
+            checked={accommodation === 'resort'}
+            onChange={(e)=>setAccommodation(e.target.value)}
+            icon={<SketchLogo size={32} weight='duotone' fill="currentColor" />}/>
         </div>
       </div>
       
@@ -225,9 +235,9 @@ export default function SinglePageForm() {
 
         <RadioItem
             name="pace"
-            label="slow"
-            value="slow"
-            checked={pace === 'slow'}
+            label="relaxed"
+            value="relaxed"
+            checked={pace === 'relaxed'}
             onChange={(e)=>setPace(e.target.value)}
             icon={
                 <svg
@@ -237,14 +247,12 @@ export default function SinglePageForm() {
                     fill="currentColor"
                     viewBox="0 0 256 256">
                     <circle cx="128" cy="128" r="32" />
-                </svg>}
-        />
-        
+                </svg>}/>
         <RadioItem
             name="pace"
-            label="medium"
-            value="medium"
-            checked={pace === 'medium'}
+            label="moderate"
+            value="moderate"
+            checked={pace === 'moderate'}
             onChange={(e)=>setPace(e.target.value)}
             icon={
                 <svg
@@ -255,14 +263,12 @@ export default function SinglePageForm() {
                     viewBox="0 0 256 256">
                     <circle cx="85" cy="128" r="32" />
                     <circle cx="171" cy="128" r="32" />
-                </svg>}
-        />
-
+                </svg>}/>
         <RadioItem
             name="pace"
-            label="fast"
-            value="fast"
-            checked={pace === 'fast'}
+            label="energetic"
+            value="energetic"
+            checked={pace === 'energetic'}
             onChange={(e)=>setPace(e.target.value)}
             icon={
                 <svg
@@ -274,10 +280,7 @@ export default function SinglePageForm() {
                     <circle cx="32" cy="128" r="32" />
                     <circle cx="128" cy="128" r="32" />
                     <circle cx="224" cy="128" r="32" />
-                </svg>}
-        />
-              
-      
+                </svg>}/>
         </div>
       </div>
       
