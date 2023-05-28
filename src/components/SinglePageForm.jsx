@@ -5,6 +5,8 @@ import CheckboxItem from './CheckboxItem';
 import RadioItem from './RadioItem';
 import { DateTime } from 'luxon';
 
+import Itinerary from './Itinerary';
+
 
 import {
   Waves, Cactus, Mountains, TreeEvergreen,
@@ -41,9 +43,11 @@ export default function SinglePageForm() {
     function generateTrip(event) {
         event.preventDefault()
         // console.log(travelData)
-        console.log(`Create an unique, dynamic, and extraordinary travel itinerary based on the following information ${JSON.stringify(travelData)}. Be as specific as possible with accommodation and activity suggestions. Ensure that the itinerary includes some unconventional and off-the-beaten path suggestions. Return your response as a JSON object with the following keys for each section of the trip: dates, location, activities. The final JSON object should be an array of trip segments.`)
+        console.log(`Create an unique, dynamic, and extraordinary travel itinerary based on the following information ${JSON.stringify(travelData)}. Be as specific as possible with accommodation, activity suggestions, and travel connections between the trip segments. Ensure that the itinerary includes some off-the-beaten-path suggestions and hidden gems. Return your response as a JSON object with the following keys for each segment of the trip: dates, location, travel_information,  accommodation_details, activities. The final JSON object should be an array of trip segments.`)
     }
 
+
+    
     // `Return your response as a JSON object with the following keys for each section of the trip: dates, location, activities. The final JSON object should be an array of trip segments.`
 
     function handleCheckboxChange(e) {
@@ -56,6 +60,8 @@ export default function SinglePageForm() {
             }
         });
     };
+
+    
 
 
     return (
@@ -368,6 +374,8 @@ export default function SinglePageForm() {
     <button className='btn btn-outline mt-6 mb-24' onClick={generateTrip}>generate trip</button>
     </form>
     
+            <Itinerary />
+            
         </div>
 
     )
