@@ -24,26 +24,26 @@ export default function SinglePageForm() {
     const [environment, setEnvironment] = useState("")
     const [group, setGroup] = useState("")
     const [accommodation, setAccommodation] = useState("")
-    const [pace, setPace] = useState("")
+    const [segmentDuration, setSegmentDuration] = useState("")
     const [interests, setInterests] = useState([])
 
 
     const travelData = 
     {
-        startDate: DateTime.fromJSDate(startDate).toLocaleString(DateTime.DATE_MED),
-        endDate: DateTime.fromJSDate(endDate).toLocaleString(DateTime.DATE_MED),
+        startDate: DateTime.fromJSDate(startDate).toISODate(),
+        endDate: DateTime.fromJSDate(endDate).toISODate(),
         regionPreference: regionPreference,
         environment: environment,
         group: group,
         accommodations: accommodation,
-        pace: pace,
+        segmentDuration: segmentDuration,
         interests: interests,
     }
     
     function generateTrip(event) {
         event.preventDefault()
         // console.log(travelData)
-        console.log(`Create an unique, dynamic, and extraordinary travel itinerary based on the following information ${JSON.stringify(travelData)}. Be as specific as possible with accommodation, activity suggestions, and travel connections between the trip segments. Ensure that the itinerary includes some off-the-beaten-path suggestions and hidden gems. Return your response as a JSON object with the following keys for each segment of the trip: dates, location, travel_information,  accommodation_details, activities. The final JSON object should be an array of trip segments.`)
+        console.log(`Create an unique, dynamic, and extraordinary travel itinerary based on the following information ${JSON.stringify(travelData)}. Be as specific as possible with accommodation, activity suggestions, and travel connections between the trip segments. Ensure that the itinerary includes some off-the-beaten-path suggestions and that the activity recommendations take the provided interests into account. Return your response as a JSON object with the following keys for each segment of the trip: start_date, end_date, location, travel_information,  accommodation_details, activities. The final JSON object should be an array of trip segments.`)
     }
 
 
@@ -242,9 +242,9 @@ export default function SinglePageForm() {
         <RadioItem
             name="pace"
             label="relaxed"
-            value="relaxed"
-            checked={pace === 'relaxed'}
-            onChange={(e)=>setPace(e.target.value)}
+            value="long"
+            checked={segmentDuration === 'long'}
+            onChange={(e)=>setSegmentDuration(e.target.value)}
             icon={
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -257,9 +257,9 @@ export default function SinglePageForm() {
         <RadioItem
             name="pace"
             label="moderate"
-            value="moderate"
-            checked={pace === 'moderate'}
-            onChange={(e)=>setPace(e.target.value)}
+            value="medium"
+            checked={segmentDuration === 'medium'}
+            onChange={(e)=>setSegmentDuration(e.target.value)}
             icon={
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -273,9 +273,9 @@ export default function SinglePageForm() {
         <RadioItem
             name="pace"
             label="energetic"
-            value="energetic"
-            checked={pace === 'energetic'}
-            onChange={(e)=>setPace(e.target.value)}
+            value="short"
+            checked={segmentDuration === 'short'}
+            onChange={(e)=>setSegmentDuration(e.target.value)}
             icon={
                 <svg
                     xmlns="http://www.w3.org/2000/svg"

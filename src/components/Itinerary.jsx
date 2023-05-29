@@ -1,71 +1,94 @@
 import { Activity } from '@phosphor-icons/react'
 import { useState } from 'react'
+import { DateTime } from 'luxon';
 
 const response =
     {
         "trip_segments": [
-            {
-                "dates": {
-                    "start_date": "Oct 26, 2023",
-                    "end_date": "Oct 31, 2023"
-                },
-                "location": "Santa Fe, New Mexico",
-                "travel_information": "Fly into Santa Fe Municipal Airport (SAF), located approximately 15 minutes from downtown Santa Fe. You can arrange a private transfer or take a taxi to your hotel.",
-                "accommodation_details": "Stay at The Inn of the Five Graces, a luxurious boutique hotel known for its unique decor and warm ambiance. The hotel offers spacious rooms with authentic southwestern design elements and a serene courtyard.",
-                "activities": [
-                    "Explore the historic Santa Fe Plaza and its surrounding adobe architecture. Don't miss the Palace of the Governors, which houses the New Mexico History Museum.",
-                    "Take a leisurely hike in the nearby Sangre de Cristo Mountains. The Aspen Vista Trail offers beautiful fall foliage and panoramic views of the city.",
-                    "Visit the Santa Fe Farmers Market to experience local produce and artisanal goods. The market is open on Saturdays and Tuesdays and is a great place to sample regional flavors.",
-                    "Participate in a cooking class to learn about the region's culinary traditions. The Santa Fe School of Cooking offers hands-on classes where you can create dishes using local ingredients and spices."
-                ]
-            },
-            {
-                "dates": {
-                    "start_date": "Nov 1, 2023",
-                    "end_date": "Nov 5, 2023"
-                },
-                "location": "Moab, Utah",
-                "travel_information": "Drive from Santa Fe to Moab (approximately 6.5 hours) through scenic landscapes. Consider taking Highway 191, which offers stunning views of the Colorado Plateau.",
-                "accommodation_details": "Stay at the Sorrel River Ranch Resort and Spa, nestled along the Colorado River with stunning views of red rock canyons. The resort offers comfortable rooms and various outdoor activities.",
-                "activities": [
-                    "Explore Arches National Park and hike to iconic landmarks like Delicate Arch and Landscape Arch. The Devil's Garden Trail is a great option for experiencing a variety of arches.",
-                    "Take a sunset hike in the lesser-known Fisher Towers area for unique rock formations and panoramic views. The Fisher Towers Trail is a moderate hike with breathtaking scenery.",
-                    "Embark on a guided off-road tour through the rugged terrain of Canyonlands National Park. This allows you to access remote areas and enjoy the park's diverse landscapes.",
-                    "Indulge in a culinary adventure with a visit to local farm-to-table restaurants showcasing the region's flavors. The Desert Bistro and the Sunset Grill offer exquisite dining experiences."
-                ]
-            }
-        ]
+  {
+    "start_date": "2023-06-10",
+    "end_date": "2023-06-20",
+    "location": "Wellington, New Zealand",
+    "travel_information": "Fly into Wellington Airport and take a taxi to the city center.",
+    "accommodation_details": "Stay at a camping ground near the waterfront, offering stunning views of the harbor.",
+    "activities": [
+      "Explore the urban legends and paranormal history of Wellington with a guided ghost tour",
+      "Visit the Wellington Night Market for an immersive culinary experience and vibrant nightlife",
+      "Hike up to Mount Victoria Lookout for panoramic views of the city at sunset",
+      "Take a cable car ride to the Botanic Garden and enjoy a picnic amidst the beautiful surroundings",
+      "Experience the thrill of Zorbing at the ZORB Rotorua Adventure Park"
+    ]
+  },
+  {
+    "start_date": "2023-06-21",
+    "end_date": "2023-07-10",
+    "location": "Fiji Islands",
+    "travel_information": "Fly from Wellington to Nadi International Airport in Fiji.",
+    "accommodation_details": "Stay at a beachfront campsite on one of the stunning islands, offering a perfect blend of adventure and relaxation.",
+    "activities": [
+      "Embark on a night snorkeling excursion to witness the bioluminescent wonders of the ocean",
+      "Join a traditional Fijian Kava ceremony and immerse yourself in the local culture",
+      "Explore the hidden gems of the Yasawa Islands, including secluded beaches and secret caves",
+      "Go on a ghost ship tour and learn about the haunted history of the region",
+      "Join a local village tour and engage in traditional storytelling around a bonfire"
+    ]
+  },
+  {
+    "start_date": "2023-07-11",
+    "end_date": "2023-08-25",
+    "location": "Sydney, Australia",
+    "travel_information": "Fly from Fiji to Sydney Kingsford Smith Airport.",
+    "accommodation_details": "Stay at a beachside camping site near Bondi Beach, providing a vibrant atmosphere and access to Sydney's nightlife.",
+    "activities": [
+      "Explore The Rocks, an area known for its historical significance and ghost stories",
+      "Visit the iconic Sydney Opera House and attend a thrilling performance",
+      "Experience the Sydney Harbour Bridge Climb for breathtaking views of the city skyline at night",
+      "Join a pub crawl in the lively neighborhoods of Newtown and Surry Hills",
+      "Take a haunted walking tour in the historic district of Millers Point"
+    ]
+  }
+]
+
 }
-    
 
-const itineraryObj = response.trip_segments.map(each => {
-    const activities = each.activities.map(activity => {
-        return (
-            <div>- {activity}</div>
-        )
-        
-    })
 
-    return (
-        <div className='outline p-4 m-4 rounded-md'>
-            <div className='flex flex-row w-full justify-between mb-4'>
-            <div>{each.dates.start_date} - {each.dates.start_date}</div>
-            <div>{each.location}</div>
-            </div>
-            <div className='mb-4'>{each.travel_information}</div>
-            <div>Accomodation:</div>
-            <div className='mb-4'>{each.accommodation_details}</div>
-            <div>Activities:</div>
-            <div>{activities}</div>
-        </div>
-    )
-})
+const ItinerarySegment = ({ start_date, end_date, location, activities, travel_information, accommodation_details }) => {
+  const [expanded, setExpanded] = useState(false);
+  const startDateFormatted = DateTime.fromISO(start_date).toLocaleString({ month: 'short', day: 'numeric' })
+  const endDateFormatted = DateTime.fromISO(end_date).toLocaleString({ month: 'short', day: 'numeric' })
+
+      
+  const toggleExpand = () => {
+    setExpanded(!expanded);
+  };
+
+  const activityItems = activities.map((activity) => (
+    <div key={activity}>- {activity}</div>
+  ));
+
+  return (
+    <div className='outline m-4 rounded-md w-screen'>
+      <div className='flex flex-row w-full justify-between mb-4' onClick={toggleExpand}>
+        <div>{startDateFormatted} - {endDateFormatted}</div>
+        <div>{location}</div>
+      </div>
+      {expanded && (
+        <>
+          <div className='mb-4'>{travel_information}</div>
+          <div>Accommodation:</div>
+          <div className='mb-4'>{accommodation_details}</div>
+          <div>Activities:</div>
+          <div>{activityItems}</div>
+        </>
+      )}
+    </div>
+  );
+};
 
 export default function Itinerary() {
-    return (
-        <div>
-            {itineraryObj}
-        </div>
+  const itineraryObj = response.trip_segments.map((segment) => (
+    <ItinerarySegment key={segment.id} {...segment} />
+  ));
 
-    )
+  return <div>{itineraryObj}</div>;
 }
