@@ -68,7 +68,7 @@ export default function SinglePageForm() {
 
 <div className='flex flex-col items-center'>
       <form>
-      <div className='flex flex-col items-center my-8'>
+      <div className='flex flex-col items-center mt-8'>
         <div className='text-md font-semibold uppercase text-neutral-700 my-2'>travel dates</div>
         <div className='w-60 border-b-2 my-4 text-sky-600 font-semibold text-sm'>
           <DatePicker
@@ -369,14 +369,20 @@ export default function SinglePageForm() {
         icon={<Champagne size={32} weight="duotone" fill="currentColor" />}
         />
         </div>
-      </div>
-      
-    <button className='btn btn-outline mt-6 mb-24' onClick={generateTrip}>generate trip</button>
-    </form>
-    
-            <Itinerary />
-            
+        
+        
         </div>
+
+        <div className='w-full flex flex-col items-center'>
+            <button className='btn btn-outline mt-10 mb-16 ' onClick={generateTrip}>generate trip</button>
+        </div>        
+        
+        </form>
+
+            
+    
+             
+    </div>
 
     )
 }

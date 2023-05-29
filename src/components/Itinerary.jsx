@@ -63,22 +63,22 @@ const ItinerarySegment = ({ start_date, end_date, location, activities, travel_i
   };
 
   const activityItems = activities.map((activity) => (
-    <div className='mb-2' key={activity}>&#x2022; {activity}</div>
+    <div className='flex flex-row mb-2'><div className='text-[18px]'>&#x2022;</div><div className='ml-1' key={activity}>{activity}</div></div>
   ));
 
   return (
-    <div className='outline outline-gray-100 rounded-md w-11/12 mx-auto p-2 my-3'>
-      <div className='flex flex-row w-full justify-between' onClick={toggleExpand}>
+    <div className={`outline outline-gray-100 rounded-md w-11/12 mx-auto p-4 my-3  ${!expanded && 'hover:bg-slate-100'}  duration-500`}>
+      <div className='flex flex-row w-full justify-between cursor-pointer' onClick={toggleExpand}>
         <div className='uppercase font-semibold text-sm text-gray-600'>{startDateFormatted} - {endDateFormatted}</div>
-        <div className='uppercase font-semibold text-sm underline underline-offset-4 text-sky-600'>{location}</div>
+        <div className='uppercase font-semibold text-sm border-b-2 rounded-sm border-sky-500  text-sky-600'>{location}</div>
       </div>
       {expanded && (
         <>
-          <div className='mt-4 uppercase text-sm font-semibold text-gray-600'>Travel</div>
-          <div className='text-sm ml-2'>{travel_information}</div>
-          <div className='mt-4 uppercase text-sm font-semibold text-gray-600'>Accommodation</div>
-          <div className='text-sm ml-2'>{accommodation_details}</div>
-          <div className='mt-4 uppercase text-sm font-semibold text-gray-600'>Activities</div>
+          <div className='mt-5 uppercase text-sm font-semibold text-gray-600'>Travel</div>
+          <div className='text-sm ml-3'>{travel_information}</div>
+          <div className='mt-5 uppercase text-sm font-semibold text-gray-600'>Accommodation</div>
+          <div className='text-sm ml-3'>{accommodation_details}</div>
+          <div className='mt-5 uppercase text-sm font-semibold text-gray-600'>Activities</div>
           <div className='text-sm'>{activityItems}</div>
         </>
       )}
@@ -91,5 +91,5 @@ export default function Itinerary() {
     <ItinerarySegment key={segment.start_date} {...segment} />
   ));
 
-  return <div className='w-screen'>{itineraryObj}</div>;
+  return <div className='w-screen max-w-md'>{itineraryObj}</div>;
 }
