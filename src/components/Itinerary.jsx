@@ -63,22 +63,23 @@ const ItinerarySegment = ({ start_date, end_date, location, activities, travel_i
   };
 
   const activityItems = activities.map((activity) => (
-    <div key={activity}>- {activity}</div>
+    <div className='mb-2' key={activity}>&#x2022; {activity}</div>
   ));
 
   return (
-    <div className='outline m-4 rounded-md w-screen'>
-      <div className='flex flex-row w-full justify-between mb-4' onClick={toggleExpand}>
-        <div>{startDateFormatted} - {endDateFormatted}</div>
-        <div>{location}</div>
+    <div className='outline outline-gray-100 rounded-md w-11/12 mx-auto p-2 my-3'>
+      <div className='flex flex-row w-full justify-between' onClick={toggleExpand}>
+        <div className='uppercase font-semibold text-sm text-gray-600'>{startDateFormatted} - {endDateFormatted}</div>
+        <div className='uppercase font-semibold text-sm underline underline-offset-4 text-sky-600'>{location}</div>
       </div>
       {expanded && (
         <>
-          <div className='mb-4'>{travel_information}</div>
-          <div>Accommodation:</div>
-          <div className='mb-4'>{accommodation_details}</div>
-          <div>Activities:</div>
-          <div>{activityItems}</div>
+          <div className='mt-4 uppercase text-sm font-semibold text-gray-600'>Travel</div>
+          <div className='text-sm ml-2'>{travel_information}</div>
+          <div className='mt-4 uppercase text-sm font-semibold text-gray-600'>Accommodation</div>
+          <div className='text-sm ml-2'>{accommodation_details}</div>
+          <div className='mt-4 uppercase text-sm font-semibold text-gray-600'>Activities</div>
+          <div className='text-sm'>{activityItems}</div>
         </>
       )}
     </div>
@@ -87,8 +88,8 @@ const ItinerarySegment = ({ start_date, end_date, location, activities, travel_i
 
 export default function Itinerary() {
   const itineraryObj = response.trip_segments.map((segment) => (
-    <ItinerarySegment key={segment.id} {...segment} />
+    <ItinerarySegment key={segment.start_date} {...segment} />
   ));
 
-  return <div>{itineraryObj}</div>;
+  return <div className='w-screen'>{itineraryObj}</div>;
 }
