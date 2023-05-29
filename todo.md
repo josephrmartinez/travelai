@@ -1,4 +1,4 @@
-- Install openAI; send prompt to API
+- On submit: send prompt to API
 - Set up conditional rendering for load, success, and failure
 
 - Connect weather API.
