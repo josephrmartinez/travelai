@@ -120,7 +120,7 @@ const vancouver = {
 
 
 function App() {
-  const [itinerary, setItinerary] = useState(vancouver)
+  const [itinerary, setItinerary] = useState(starterData)
   
 
   return (

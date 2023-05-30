@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import CheckboxItem from './CheckboxItem';
@@ -44,9 +44,6 @@ export default function SinglePageForm({setItinerary}) {
     
     function generateTrip(event) {
         event.preventDefault()
-        // console.log(travelData)
-        setPrompt(`Create an unique, dynamic, and extraordinary travel itinerary based on the following information ${JSON.stringify(travelData)}. Be as specific as possible with accommodation, activity suggestions, and travel connections between the trip segments. Ensure that the itinerary includes some off-the-beaten-path suggestions and that the activity recommendations take the provided interests into account. Return your response in JSON format with an array of trip_segments with the following keys for each segment of the trip: start_date, end_date, location, travel_information, accommodation_details, activities. `)
-        console.log(prompt)
         makeAPIcall()
     }
 
@@ -66,6 +63,9 @@ export default function SinglePageForm({setItinerary}) {
     };
 
     function makeAPIcall() {
+        const newPrompt = `Create an unique, dynamic, and extraordinary travel itinerary based on the following information ${JSON.stringify(travelData)}. Be as specific as possible with accommodation, activity suggestions, and travel connections between the trip segments. Ensure that the itinerary includes some off-the-beaten-path suggestions and that the activity recommendations take the provided interests into account. Return your response in JSON format with an array of trip_segments with the following keys for each segment of the trip: start_date, end_date, location, travel_information, accommodation_details, activities. Your entire response should be in JSON format, nothing else.`
+
+
         setLoading(true)
         // openAI configuration object
         const configuration = new Configuration({
@@ -76,7 +76,7 @@ export default function SinglePageForm({setItinerary}) {
         openai
             .createChatCompletion({
                 model: "gpt-3.5-turbo",
-                messages: [{ role: "user", content: prompt }],
+                messages: [{ role: "user", content: newPrompt }],
             })
             .then((completion) => {
                 // Handle API response
@@ -85,7 +85,7 @@ export default function SinglePageForm({setItinerary}) {
 
                 console.log(completion);
                 console.log(generatedText);
-                // setItinerary(JSON.parse(generatedText));
+                setItinerary(JSON.parse(generatedText));
                 setLoading(false)
             })
             .catch((error) => {
