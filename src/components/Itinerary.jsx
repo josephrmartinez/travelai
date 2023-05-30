@@ -2,55 +2,6 @@ import { Activity } from '@phosphor-icons/react'
 import { useState } from 'react'
 import { DateTime } from 'luxon';
 
-const response =
-    {
-        "trip_segments": [
-  {
-    "start_date": "2023-06-10",
-    "end_date": "2023-06-20",
-    "location": "Wellington, New Zealand",
-    "travel_information": "Fly into Wellington Airport and take a taxi to the city center.",
-    "accommodation_details": "Stay at a camping ground near the waterfront, offering stunning views of the harbor.",
-    "activities": [
-      "Explore the urban legends and paranormal history of Wellington with a guided ghost tour",
-      "Visit the Wellington Night Market for an immersive culinary experience and vibrant nightlife",
-      "Hike up to Mount Victoria Lookout for panoramic views of the city at sunset",
-      "Take a cable car ride to the Botanic Garden and enjoy a picnic amidst the beautiful surroundings",
-      "Experience the thrill of Zorbing at the ZORB Rotorua Adventure Park"
-    ]
-  },
-  {
-    "start_date": "2023-06-21",
-    "end_date": "2023-07-10",
-    "location": "Fiji Islands",
-    "travel_information": "Fly from Wellington to Nadi International Airport in Fiji.",
-    "accommodation_details": "Stay at a beachfront campsite on one of the stunning islands, offering a perfect blend of adventure and relaxation.",
-    "activities": [
-      "Embark on a night snorkeling excursion to witness the bioluminescent wonders of the ocean",
-      "Join a traditional Fijian Kava ceremony and immerse yourself in the local culture",
-      "Explore the hidden gems of the Yasawa Islands, including secluded beaches and secret caves",
-      "Go on a ghost ship tour and learn about the haunted history of the region",
-      "Join a local village tour and engage in traditional storytelling around a bonfire"
-    ]
-  },
-  {
-    "start_date": "2023-07-11",
-    "end_date": "2023-08-25",
-    "location": "Sydney, Australia",
-    "travel_information": "Fly from Fiji to Sydney Kingsford Smith Airport.",
-    "accommodation_details": "Stay at a beachside camping site near Bondi Beach, providing a vibrant atmosphere and access to Sydney's nightlife.",
-    "activities": [
-      "Explore The Rocks, an area known for its historical significance and ghost stories",
-      "Visit the iconic Sydney Opera House and attend a thrilling performance",
-      "Experience the Sydney Harbour Bridge Climb for breathtaking views of the city skyline at night",
-      "Join a pub crawl in the lively neighborhoods of Newtown and Surry Hills",
-      "Take a haunted walking tour in the historic district of Millers Point"
-    ]
-  }
-]
-
-}
-
 
 const ItinerarySegment = ({ start_date, end_date, location, activities, travel_information, accommodation_details }) => {
   const [expanded, setExpanded] = useState(false);
@@ -62,8 +13,8 @@ const ItinerarySegment = ({ start_date, end_date, location, activities, travel_i
     setExpanded(!expanded);
   };
 
-  const activityItems = activities.map((activity) => (
-    <div className='flex flex-row mb-2'><div className='text-[18px]'>&#x2022;</div><div className='ml-1' key={activity}>{activity}</div></div>
+  const activityItems = activities.map((activity, index) => (
+      <div className='flex flex-row mb-2' key={index}><div className='text-[18px]'>&#x2022;</div><div className='ml-1' key={activity}>{activity}</div></div>
   ));
 
   return (
@@ -86,8 +37,11 @@ const ItinerarySegment = ({ start_date, end_date, location, activities, travel_i
   );
 };
 
-export default function Itinerary() {
-  const itineraryObj = response.trip_segments.map((segment) => (
+export default function Itinerary({ itinerary }) {
+    if (!itinerary || !itinerary.trip_segments) {
+        return null
+    }
+  const itineraryObj = itinerary.trip_segments.map((segment) => (
     <ItinerarySegment key={segment.start_date} {...segment} />
   ));
 

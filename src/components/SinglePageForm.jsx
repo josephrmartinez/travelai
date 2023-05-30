@@ -4,9 +4,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import CheckboxItem from './CheckboxItem';
 import RadioItem from './RadioItem';
 import { DateTime } from 'luxon';
-
-import Itinerary from './Itinerary';
-
+import { Configuration, OpenAIApi } from "openai";
 
 import {
   Waves, Cactus, Mountains, TreeEvergreen,
@@ -16,16 +14,20 @@ import {
   Bed, SketchLogo, Tent, Grains
 } from "@phosphor-icons/react";
 
-export default function SinglePageForm() {
+const apiKey = import.meta.env.VITE_OPENAI_API_KEY;
+
+
+export default function SinglePageForm({setItinerary}) {
     const [dateRange, setDateRange] = useState([null, null]);
     const [startDate, endDate] = dateRange;
-
     const [regionPreference, setRegionPreference] = useState("")
     const [environment, setEnvironment] = useState("")
     const [group, setGroup] = useState("")
     const [accommodation, setAccommodation] = useState("")
     const [segmentDuration, setSegmentDuration] = useState("")
     const [interests, setInterests] = useState([])
+    const [prompt, setPrompt] = useState("")
+    const [loading, setLoading] = useState(false)
 
 
     const travelData = 
@@ -43,7 +45,9 @@ export default function SinglePageForm() {
     function generateTrip(event) {
         event.preventDefault()
         // console.log(travelData)
-        console.log(`Create an unique, dynamic, and extraordinary travel itinerary based on the following information ${JSON.stringify(travelData)}. Be as specific as possible with accommodation, activity suggestions, and travel connections between the trip segments. Ensure that the itinerary includes some off-the-beaten-path suggestions and that the activity recommendations take the provided interests into account. Return your response as a JSON object with the following keys for each segment of the trip: start_date, end_date, location, travel_information,  accommodation_details, activities. The final JSON object should be an array of trip segments.`)
+        setPrompt(`Create an unique, dynamic, and extraordinary travel itinerary based on the following information ${JSON.stringify(travelData)}. Be as specific as possible with accommodation, activity suggestions, and travel connections between the trip segments. Ensure that the itinerary includes some off-the-beaten-path suggestions and that the activity recommendations take the provided interests into account. Return your response in JSON format with an array of trip_segments with the following keys for each segment of the trip: start_date, end_date, location, travel_information, accommodation_details, activities. `)
+        console.log(prompt)
+        makeAPIcall()
     }
 
 
@@ -61,7 +65,35 @@ export default function SinglePageForm() {
         });
     };
 
-    
+    function makeAPIcall() {
+        setLoading(true)
+        // openAI configuration object
+        const configuration = new Configuration({
+            apiKey: apiKey,
+        });         
+        const openai = new OpenAIApi(configuration);
+
+        openai
+            .createChatCompletion({
+                model: "gpt-3.5-turbo",
+                messages: [{ role: "user", content: prompt }],
+            })
+            .then((completion) => {
+                // Handle API response
+                const generatedText =
+                    completion.data.choices[0].message.content;
+
+                console.log(completion);
+                console.log(generatedText);
+                // setItinerary(JSON.parse(generatedText));
+                setLoading(false)
+            })
+            .catch((error) => {
+                console.log(error);
+                setItinerary("");
+                setLoading(false)
+            });
+    }
 
 
     return (
@@ -374,7 +406,8 @@ export default function SinglePageForm() {
         </div>
 
         <div className='w-full flex flex-col items-center'>
-            <button className='btn btn-outline mt-10 mb-16 ' onClick={generateTrip}>generate trip</button>
+                    {!loading ? <button className='btn btn-outline mt-10 mb-16' onClick={generateTrip}>generate itinerary</button>
+                        : <div className='btn btn-outline mt-10 mb-16 loading cursor-default'>making itinerary</div>}
         </div>        
         
         </form>
