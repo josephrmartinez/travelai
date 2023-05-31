@@ -63,8 +63,14 @@ export default function SinglePageForm({setItinerary}) {
     };
 
     function makeAPIcall() {
-        const newPrompt = `Create an unique, dynamic, and extraordinary travel itinerary based on the following information ${JSON.stringify(travelData)}. Be as specific as possible with accommodation, activity suggestions, and travel connections between the trip segments. Ensure that the itinerary includes some off-the-beaten-path suggestions and that the activity recommendations take the provided interests into account. Return your response in JSON format with an array of trip_segments with the following keys for each segment of the trip: start_date, end_date, location, travel_information, accommodation_details, activities. Your entire response should be in JSON format, nothing else.`
-
+const newPrompt = `Create an extraordinary travel itinerary based on the following information ${JSON.stringify(travelData)}. Be as specific as possible with accommodation, activity suggestions, and travel connections between the trip segments. Ensure that the itinerary includes some off-the-beaten-path suggestions and that the activity recommendations take the provided interests into account. Return your response in JSON format with the key trip_segments containing an array of trip segments. Each trip segment should include the following keys:
+'start_date' (string): The starting date of the trip segment.
+'end_date' (string): The ending date of the trip segment.
+'location' (string): The location or destination of the trip segment.
+'travel_logistics' (string): Information related to travel logistics, such as transportation options or specific instructions.
+'accommodation_details' (string): Details about the accommodation for the trip segment, including hotel names, addresses, or booking information.
+'activities' (array of strings): An array containing multiple strings representing activity suggestions for the trip segment.
+ Your entire response should be in JSON format, nothing else.`
 
         setLoading(true)
         // openAI configuration object
@@ -72,7 +78,7 @@ export default function SinglePageForm({setItinerary}) {
             apiKey: apiKey,
         });         
         const openai = new OpenAIApi(configuration);
-
+        console.log(newPrompt)
         openai
             .createChatCompletion({
                 model: "gpt-3.5-turbo",
