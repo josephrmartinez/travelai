@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { DateTime } from 'luxon';
 
 
-const ItinerarySegment = ({ start_date, end_date, location, activities, travel_information, accommodation_details }) => {
+const ItinerarySegment = ({ start_date, end_date, location, activities, travel_logistics, accommodation_details }) => {
   const [expanded, setExpanded] = useState(false);
   const startDateFormatted = DateTime.fromISO(start_date).toLocaleString({ month: 'short', day: 'numeric' })
   const endDateFormatted = DateTime.fromISO(end_date).toLocaleString({ month: 'short', day: 'numeric' })
@@ -26,7 +26,7 @@ const ItinerarySegment = ({ start_date, end_date, location, activities, travel_i
       {expanded && (
         <>
           <div className='mt-5 uppercase text-sm font-semibold text-gray-600'>Travel</div>
-          <div className='text-sm ml-3'>{travel_information}</div>
+          <div className='text-sm ml-3'>{travel_logistics}</div>
           <div className='mt-5 uppercase text-sm font-semibold text-gray-600'>Accommodation</div>
           <div className='text-sm ml-3'>{accommodation_details}</div>
           <div className='mt-5 uppercase text-sm font-semibold text-gray-600'>Activities</div>

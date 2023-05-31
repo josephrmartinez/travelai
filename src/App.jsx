@@ -120,12 +120,12 @@ const vancouver = {
 
 
 function App() {
-  const [itinerary, setItinerary] = useState(starterData)
+  const [itinerary, setItinerary] = useState({})
   
 
   return (
     <div className='flex flex-col items-center'> 
-      <SinglePageForm setItinerary={setItinerary} />
+      <SinglePageForm setItinerary={setItinerary} itinerary={itinerary}/>
       <div className='mb-12'>
         <Itinerary itinerary={itinerary} />
       </div>
